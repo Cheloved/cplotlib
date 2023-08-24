@@ -6,15 +6,21 @@ char moving = 0;
 
 void event_mouse_click(int button, int state, int x, int y)
 {
-    if ( state == GLUT_DOWN )
+    if ( button == 0 && state == GLUT_DOWN )
     {
         last_pos[0] = x;
         last_pos[1] = y;
         moving = 1;
     }
 
-    if ( state == GLUT_UP )
+    if ( button == 0 && state == GLUT_UP )
         moving = 0;
+
+    if ( button == 3 )
+        scale *= 1.1;
+
+    if ( button == 4 )
+        scale *= 0.9;
 
     /* printf(" [DEBUG] Mouse click event:\n" \ */
     /*        "\tbutton: %d\n" \ */

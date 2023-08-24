@@ -27,7 +27,7 @@ double f2(double x)
 
 double f3(double x)
 {
-    return fabs(cos(x));
+    return exp(x);
 }
 
 void display (void) 
@@ -36,22 +36,22 @@ void display (void)
     glClear(GL_COLOR_BUFFER_BIT);
 
     drawAxis(2.0, 0.7, 0.7, 0.7);
-    drawGrid(1.0, 50.0, 0.3, 0.3, 0.3, 0.3);
+    drawGrid(1.0, 1.0, 0.3, 0.3, 0.3, 0.3);
 
     // Draw circle
     /* drawCircle(50, 0.01); */
 
     glColor3f(0.2, 0.2, 0.8);
-    glPointSize(3.0);
-    drawFunc(&f1, -10, 10, 0.1);
+    glLineWidth(2);
+    drawFunc(&f1, -10, 10);
 
     glColor3f(0.8, 0.2, 0.2);
-    glPointSize(2.0);
-    drawFunc(&f2, -10, 10, 0.1);
+    glLineWidth(1);
+    drawFunc(&f2, -10, 10);
 
     glColor3f(0.2, 0.8, 0.2);
-    glPointSize(1.0);
-    drawFunc(&f3, -10, 10, 0.1);
+    glLineWidth(3);
+    drawFunc(&f3, -10, 10);
 
     // Update
     glutSwapBuffers();

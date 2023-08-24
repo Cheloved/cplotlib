@@ -25,8 +25,15 @@ void drawGrid(double thickness, double step, double r, double g, double b, doubl
 
     glLineWidth(thickness);
 
+    // Fix grid size
+    while ( step * scale > 100 )
+        step /= 10;
+
+    while ( step * scale < 10 )
+        step *= 10;
+
     // Horizontal grids on top
-    for ( double y = 0; y < HEIGHT/2+t_offset[1]; y += step )
+    for ( double y = 0; y < HEIGHT/2+t_offset[1]; y += step*scale )
     {
         glBegin(GL_LINES);
         glVertex2f(-WIDTH/2+t_offset[0], y);
@@ -35,7 +42,7 @@ void drawGrid(double thickness, double step, double r, double g, double b, doubl
     }
     
     // Horizontal grids on bottom 
-    for ( double y = 0; y > -HEIGHT/2+t_offset[1]; y -= step )
+    for ( double y = 0; y > -HEIGHT/2+t_offset[1]; y -= step*scale )
     {
         glBegin(GL_LINES);
         glVertex2f(-WIDTH/2+t_offset[0], y);
@@ -44,7 +51,7 @@ void drawGrid(double thickness, double step, double r, double g, double b, doubl
     }
     
     // Vertical grids on the right side
-    for ( double x = 0; x < WIDTH/2+t_offset[0]; x += step )
+    for ( double x = 0; x < WIDTH/2+t_offset[0]; x += step*scale )
     {
         glBegin(GL_LINES);
         glVertex2f(x, -HEIGHT/2+t_offset[1]);
@@ -53,7 +60,7 @@ void drawGrid(double thickness, double step, double r, double g, double b, doubl
     }
     
     // Vertical grids on the left side
-    for ( double x = 0; x > -WIDTH/2+t_offset[0]; x -= step )
+    for ( double x = 0; x > -WIDTH/2+t_offset[0]; x -= step*scale )
     {
         glBegin(GL_LINES);
         glVertex2f(x, -HEIGHT/2+t_offset[1]);
@@ -82,16 +89,33 @@ void drawCircle(double radius, double delta)
     glEnd();
 }
 
-void drawFunc(double (*func)(double), double x1, double x2, double step)
+void drawFunc(double (*func)(double), double x1, double x2)
 {
-    double y = 0;
+    double y, yn, step = 0;
 
-    /* glBegin(GL_LINES); */
-    glBegin(GL_POINTS);
-    for ( double x = -WIDTH/2+t_offset[0]; x < WIDTH/2+t_offset[0]; x += step )
+    glBegin(GL_LINE_STRIP);
+    double x = -WIDTH/2 + t_offset[0];
+    while ( x < WIDTH/2+t_offset[0] )
     {
         y = func(x/scale);
         glVertex2f(x, y*scale);
+
+        step = 1;
+        yn = func((x+step)/scale);
+        while ( fabs(y - yn)*scale > MAX_DIFF && step > MIN_STEP )
+        {
+            step *= 0.5;
+            yn = func((x+step)/scale);
+        }
+
+        x += step;
     }
     glEnd();
+
+    /* glBegin(GL_POINTS); */
+    /* for ( double x = -WIDTH/2+t_offset[0]; x < WIDTH/2+t_offset[0]; x += step ) */
+    /* { */
+    /*     y = func(x/scale); */
+    /*     glVertex2f(x, y*scale); */
+    /* } */
 }

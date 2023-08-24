@@ -11,6 +11,6 @@
 void drawAxis(double thickness, double r, double g, double b);
 void drawGrid(double thickness, double step, double r, double g, double b, double alpha);
 void drawCircle(double radius, double delta);
-void drawFunc(double (*func)(double), double x1, double x2, double step);
+void drawFunc(double (*func)(double), double x1, double x2);
 
 #endif
