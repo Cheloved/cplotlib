@@ -1,6 +1,6 @@
 #include "libs/drawing.h"
 
-void drawAxis(float thickness, float r, float g, float b)
+void drawAxis(double thickness, double r, double g, double b)
 {
     glColor3f(r, g, b);
 
@@ -19,14 +19,14 @@ void drawAxis(float thickness, float r, float g, float b)
     glEnd();
 }
 
-void drawGrid(float thickness, float step, float r, float g, float b, float alpha)
+void drawGrid(double thickness, double step, double r, double g, double b, double alpha)
 {
     glColor4f(r, g, b, alpha);
 
     glLineWidth(thickness);
 
     // Horizontal grids on top
-    for ( float y = 0; y < HEIGHT/2+t_offset[1]; y += step )
+    for ( double y = 0; y < HEIGHT/2+t_offset[1]; y += step )
     {
         glBegin(GL_LINES);
         glVertex2f(-WIDTH/2+t_offset[0], y);
@@ -35,7 +35,7 @@ void drawGrid(float thickness, float step, float r, float g, float b, float alph
     }
     
     // Horizontal grids on bottom 
-    for ( float y = 0; y > -HEIGHT/2+t_offset[1]; y -= step )
+    for ( double y = 0; y > -HEIGHT/2+t_offset[1]; y -= step )
     {
         glBegin(GL_LINES);
         glVertex2f(-WIDTH/2+t_offset[0], y);
@@ -44,7 +44,7 @@ void drawGrid(float thickness, float step, float r, float g, float b, float alph
     }
     
     // Vertical grids on the right side
-    for ( float x = 0; x < WIDTH/2+t_offset[0]; x += step )
+    for ( double x = 0; x < WIDTH/2+t_offset[0]; x += step )
     {
         glBegin(GL_LINES);
         glVertex2f(x, -HEIGHT/2+t_offset[1]);
@@ -53,7 +53,7 @@ void drawGrid(float thickness, float step, float r, float g, float b, float alph
     }
     
     // Vertical grids on the left side
-    for ( float x = 0; x > -WIDTH/2+t_offset[0]; x -= step )
+    for ( double x = 0; x > -WIDTH/2+t_offset[0]; x -= step )
     {
         glBegin(GL_LINES);
         glVertex2f(x, -HEIGHT/2+t_offset[1]);
@@ -62,9 +62,9 @@ void drawGrid(float thickness, float step, float r, float g, float b, float alph
     }
 }
 
-void drawCircle(float radius, float delta)
+void drawCircle(double radius, double delta)
 {
-    float x, y;
+    double x, y;
 
     glPointSize(1.0);
       
@@ -72,7 +72,7 @@ void drawCircle(float radius, float delta)
     glColor3f(0.1, 0.1, 0.9);
       
     glBegin(GL_POINTS);
-    for ( float i = 0; i < (2 * pi); i += delta)
+    for ( double i = 0; i < (2 * pi); i += delta)
     {
         x = radius * cos(i);
         y = radius * sin(i);
@@ -82,3 +82,16 @@ void drawCircle(float radius, float delta)
     glEnd();
 }
 
+void drawFunc(double (*func)(double), double x1, double x2, double step)
+{
+    double y = 0;
+
+    /* glBegin(GL_LINES); */
+    glBegin(GL_POINTS);
+    for ( double x = -WIDTH/2+t_offset[0]; x < WIDTH/2+t_offset[0]; x += step )
+    {
+        y = func(x/scale);
+        glVertex2f(x, y*scale);
+    }
+    glEnd();
+}

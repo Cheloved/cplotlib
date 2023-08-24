@@ -12,7 +12,23 @@
 #include "libs/scene.h"
 
 // Set translation offset to zero
-float t_offset[2] = {0.0f, 0.0f};
+double t_offset[2] = {0.0, 0.0};
+double scale = 50.0;
+
+double f1(double x)
+{
+    return sin(x) + cos(3*x) + sin(9*x);
+}
+
+double f2(double x)
+{
+    return x*x;
+}
+
+double f3(double x)
+{
+    return fabs(cos(x));
+}
 
 void display (void) 
 {
@@ -23,7 +39,19 @@ void display (void)
     drawGrid(1.0, 50.0, 0.3, 0.3, 0.3, 0.3);
 
     // Draw circle
-    drawCircle(50, 0.01);
+    /* drawCircle(50, 0.01); */
+
+    glColor3f(0.2, 0.2, 0.8);
+    glPointSize(3.0);
+    drawFunc(&f1, -10, 10, 0.1);
+
+    glColor3f(0.8, 0.2, 0.2);
+    glPointSize(2.0);
+    drawFunc(&f2, -10, 10, 0.1);
+
+    glColor3f(0.2, 0.8, 0.2);
+    glPointSize(1.0);
+    drawFunc(&f3, -10, 10, 0.1);
 
     // Update
     glutSwapBuffers();

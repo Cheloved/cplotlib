@@ -4,6 +4,6 @@
 #include <GL/glut.h>
 #include "defines.h"
 
-void move(float x, float y);
+void move(double x, double y);
 
 #endif
